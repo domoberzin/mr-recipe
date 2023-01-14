@@ -60,7 +60,7 @@ const MainPage = () => {
 
   return (
     <div className='main-page'>
-      <h1>Welcome to Cocktail Central</h1>
+      <h1 className="text-3xl font-bold underline" >Welcome to Mr Recipe</h1>
       <SearchForm searchTerm={searchTerm} onSearchTermChange = {e => setSearchTerm(e.target.value)} onSearch={handleSearch} />
       <ApiTypeSelector apiType={apiType} onApiTypeChange={handleApiTypeChange} />
       <Recipes apiType={apiType} currentResults={currentResults} openedIngredients={openedIngredients} 

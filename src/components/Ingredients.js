@@ -22,7 +22,7 @@ const IngredientButton = ({ isOpen, onClick, index }) => {
 const IngredientList = ({ isOpen, ingredients }) => {
     return (
         <div className={`ingredients ${isOpen ? 'open' : ''}`}>
-            <ul>{ingredients.map(element => <li>{element}</li>)}</ul>
+            <ul class="list-disc">{ingredients.map(element => <li>{element}</li>)}</ul>
         </div>
     )
 }

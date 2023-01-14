@@ -62,9 +62,9 @@
     transform: rotate(0deg);
   }
 
-.ingredients {
+/* .ingredients {
     display: none;
-}
+} */
 
 .ingredients.open {
     display: block;
