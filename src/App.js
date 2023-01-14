@@ -1,60 +1,59 @@
 import React, { useState } from 'react';
 import './MainPage.css';
-import axios from "axios"
-import { getCocktails } from './searchApi';
+import './pagination.css';
+import { getCocktails, getFood } from './searchApi';
+import Pagination from './Pagination';
+
 
 const MainPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const [ingredientsOpen, setIngredientsOpen] = useState(false);
-  const [instructionsOpen, setInstructionsOpen] = useState(false);
-  const resultsPerPage = 3;
+  const [openedIngredients, setOpenedIngredients] = useState([]);
+  const [openedInstructions, setOpenedInstructions] = useState([]);
+  const [apiType, setApiType] = useState('cocktails');
+  const resultsPerPage = 5;
 
-  // const getCocktails = async (searchTerm) => {
-    
-  //   const apiKey = 'emqJZiaBOWlMBit9AFNBvQ==zeGsiSpgXfF4D6Zo';
-    
-  //   const ingredients = searchTerm.toString();
-    
-  //   await axios({
-  //       method: 'GET',
-  //       url: `https://api.api-ninjas.com/v1/cocktail?ingredients=${ingredients}`,
-  //       headers: {
-  //           'X-Api-Key': apiKey,
-  //           'Content-Type': 'application/json'
-  //       }
-  //   }).then(response => {
-  //       console.log("response", response);
-  //       setSearchResults(response.data);
-  //       return "Success"
-  //   }).catch(error => {
-  //       console.log(error);
-  //   });
-  // };
+  const handleIngredientClick = (recipeIndex) => {
+    if (openedIngredients.includes(recipeIndex)) {
+      setOpenedIngredients(openedIngredients.filter(i => i !== recipeIndex));
+    } else {
+      setOpenedIngredients([...openedIngredients, recipeIndex]);
+    }
+  }
+
+  const handleInstructionClick = (recipeIndex) => {
+    if (openedInstructions.includes(recipeIndex)) {
+      setOpenedInstructions(openedInstructions.filter(i => i !== recipeIndex));
+    } else {
+      setOpenedInstructions([...openedInstructions, recipeIndex]);
+    }
+  }
+
+  const handleApiTypeChange = (e) => {
+    setApiType(e.target.value);
+    setSearchResults([]);
+  }
 
   const handleSearch = async (e) => {
     e.preventDefault();
     // Make API call to get search results based on searchTerm
     // Assume the API call returns an array of recipes
-    const results = await getCocktails(searchTerm);
+    const results = apiType == 'cocktails' ? await getCocktails(searchTerm) : await getFood(searchTerm);
     setSearchResults(results);
-    // setCurrentPage(1);
+
   }
 
-  const handlePagination = (direction) => {
-    if (direction === 'prev') {
-      setCurrentPage(currentPage - 1);
-    } else {
-      setCurrentPage(currentPage + 1);
-    }
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    setOpenedIngredients([]);
+    setOpenedInstructions([]);
   }
 
-  const startIndex = (currentPage - 1) * resultsPerPage;
-  const endIndex = startIndex + resultsPerPage;
-  console.log(typeof(searchResults));
-  var test = searchResults[0] ? searchResults[0].ingredients : null;
-  // console.log(searchResults[0].ingredients);
+  const indexOfLastResult = currentPage * resultsPerPage;
+  const indexOfFirstResult = indexOfLastResult - resultsPerPage;
+  const currentResults = searchResults.slice(indexOfFirstResult, indexOfLastResult);
+
 
   return (
     <div className='main-page'>
@@ -68,32 +67,60 @@ const MainPage = () => {
         />
         <button type='submit'>Search</button>
       </form>
+      <div className='api-type-selector'>
+      <label>
+        <input
+          type='radio'
+          name='api-type'
+          value='cocktails'
+          checked={apiType === 'cocktails'}
+          onChange={handleApiTypeChange}
+        /> Cocktails
+      </label>
+      <label>
+        <input
+          type='radio'
+          name='api-type'
+          value='food'
+          checked={apiType === 'food'}
+          onChange={handleApiTypeChange}
+        /> Food
+      </label>
+    </div>
       <div className='search-results'>
         {/* {searchResults.map((recipe, index) => ()} */}
-        {searchResults.map((recipe, index) => (
+        {currentResults.map((recipe, index) => (
           <div key={index}>
             <h2>{recipe.name}</h2>
             <div 
-              className={`ingredient-button ${ingredientsOpen ? 'open' : ''}`}
-              onClick={() => setIngredientsOpen(!ingredientsOpen)}>
+              className={`ingredient-button ${openedIngredients.includes(index) ? 'open' : ''}`}
+              onClick={() => handleIngredientClick(index)}>
               <span className='arrow' />
               <span className='label'>Ingredients</span>
             </div>
-            <div className={`ingredients ${ingredientsOpen ? 'open' : ''}`}>
+            <div className={`ingredients ${openedIngredients.includes(index) ? 'open' : ''}`}>
               <ul>{recipe.ingredients.map(element => <li>{element}</li>)}</ul>
             </div>
             <div 
-              className={`instructions-button ${instructionsOpen ? 'open' : ''}`}
-              onClick={() => setInstructionsOpen(!instructionsOpen)}>
+              className={`instructions-button ${openedInstructions.includes(index) ? 'open' : ''}`}
+              onClick={() => handleInstructionClick(index)}>
               <span className='arrow' />
               <span className='label'>Instructions</span>
             </div>
-            <div className={`instructions ${instructionsOpen ? 'open' : ''}`}>
-              <p>{recipe.instructions}</p>
+            <div className={`instructions ${openedInstructions.includes(index) ? 'open' : ''}`}>
+              <p>{ apiType == 'cocktails' ? recipe.instructions : <a href={recipe.instructions}>Click here for instructions</a> }</p>
             </div>
           </div>
         ))}
       </div>
+      {searchResults.length > 5 && (
+        <Pagination 
+          totalResults={searchResults.length}
+          resultsPerPage={resultsPerPage}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
+      )}
 
 
       {/* <div className='pagination'>

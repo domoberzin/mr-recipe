@@ -20,6 +20,35 @@ export const getCocktails = async (searchTerm) => {
     }).catch(error => {
         console.log(error);
     });
+};
+
+export const getFood = async (searchTerm) => {
+    
+    const options = {
+        method: 'GET',
+        url: 'https://edamam-recipe-search.p.rapidapi.com/search',
+        params: {q: searchTerm.toString()},
+        headers: {
+          'X-RapidAPI-Key': '1811419c7dmsh7d3a941b9094dedp117189jsn6397f61f71ec',
+          'X-RapidAPI-Host': 'edamam-recipe-search.p.rapidapi.com'
+        }
+      };
+      
+      return await axios.request(options).then(function (response) {
+        var recipes = response.data.hits.map( (item) => {
+            return {
+                name: item.recipe.label,
+                // image: item.recipe.image,
+                ingredients: item.recipe.ingredientLines,
+                instructions: item.recipe.url
+            }
+        })
+        return recipes;
+      }).catch(function (error) {
+          console.error(error);
+      });
+    
+};
     // var config = {
     //   method: 'get',
     //   url: 'https://api.api-ninjas.com/v1/cocktail?ingredients=vodka,orange juice,lime',
@@ -60,7 +89,7 @@ export const getCocktails = async (searchTerm) => {
     //   })
 
     //   return arr;
-};
+
 //   try {
 //     request.get({
 //         url: 'https://api.api-ninjas.com/v1/cocktail?name=' + name,
