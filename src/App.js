@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import './MainPage.css';
 
 const MainPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -30,18 +29,19 @@ const MainPage = () => {
   const currentResults = searchResults.slice(startIndex, endIndex);
 
   return (
-    <div className='main-page'>
-      <h1>Welcome to Cocktail Central</h1>
+    <div className='flex-auto'>
+      <h1 className='text-6xl font-bold text-center'>Welcome to Cocktail Central</h1>
       <form onSubmit={handleSearch}>
         <input
+          className='justify-center'
           type='text'
           placeholder='Search for a recipe'
           value={searchTerm}
           onChange={e => setSearchTerm(e.target.value)}
         />
-        <button type='submit'>Search</button>
+        <button>Search</button>
       </form>
-      <div className='search-results'>
+      <div>
         {currentResults.map((recipe, index) => (
           <div key={index}>
             <h2>{recipe.name}</h2>
@@ -50,19 +50,17 @@ const MainPage = () => {
           </div>
         ))}
       </div>
-      <div className='pagination'>
+      <div>
         <button
-          className='pagination-button'
           disabled={currentPage === 1}
           onClick={() => handlePagination('prev')}
         >
           Prev
         </button>
-        <span className='pagination-info'>
+        <span>
           Page {currentPage} of {Math.ceil(searchResults.length / resultsPerPage)}
         </span>
         <button
-          className='pagination-button'
           disabled={currentPage === Math.ceil(searchResults.length / resultsPerPage)}
           onClick={() => handlePagination('next')}
         >
