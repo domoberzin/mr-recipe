@@ -33,3 +33,77 @@
 .main-page .search-results h2 {
     margin-bottom: 10px;
 }
+
+.ingredients{
+    display: none;
+}
+.ingredients.open{
+    display: block;
+}
+
+.ingredient-button {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.ingredient-button .arrow {
+    width: 0;
+    height: 0;
+    margin-right: 8px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid currentColor;
+    transition: transform .3s ease;
+    transform: rotate(-90deg);
+  }
+  
+  .ingredient-button.open .arrow {
+    transform: rotate(0deg);
+  }
+
+.ingredients {
+    display: none;
+}
+
+.ingredients.open {
+    display: block;
+}
+
+
+.instructions{
+    display: none;
+}
+.instructions.open{
+    display: block;
+}
+
+.instructions-button {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.instructions-button .arrow {
+    width: 0;
+    height: 0;
+    margin-right: 8px;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 8px solid currentColor;
+    transition: transform .3s ease;
+    transform: rotate(-90deg);
+  }
+  
+  .instructions-button.open .arrow {
+    transform: rotate(0deg);
+  }
+
+.instructions {
+    display: none;
+}
+
+.instructions.open {
+    display: block;
+}
+
