@@ -21,7 +21,7 @@ import React, { useState } from "react";
 
 // export default Recipes;
 
-const Recipes = ({ apiType, currentResults, openedIngredients, openedInstructions, handleIngredientClick, handleInstructionClick }) => {
+const Recipes = ({ searched, apiType, currentResults, openedIngredients, openedInstructions, handleIngredientClick, handleInstructionClick }) => {
 
   const [isPopUpOpen, setIsPopUpOpen] = useState(false);
   const [recipeName, setRecipeName] = useState("");
@@ -29,20 +29,26 @@ const Recipes = ({ apiType, currentResults, openedIngredients, openedInstruction
   const [instructionList, setInstructionList] = useState([]);
   const [i, setI] = useState(null);
 
-  if (currentResults.length === 0) {
-    return (
+  // if (currentResults.length === 0 && searchTerm !== '') {
+  //   return (
+  //     <div className="mt-12">
+  //       <span className="text-indigo-600 font-bold text-4xl">
+  //         Unfortunately nothing could be found :(
+  //       </span>
+  //     </div>
+  //   )
+  // }
+
+  return (
+    <>
+      <div className='flex flex-col gap-y-6 py-12'>
+      { currentResults.length === 0 && searched ? (
       <div className="mt-12">
         <span className="text-indigo-600 font-bold text-4xl">
           Unfortunately nothing could be found :(
         </span>
       </div>
-    )
-  }
-
-  return (
-    <>
-      <div className='flex flex-col gap-y-6 py-12'>
-      {currentResults.map((recipe, index) => (
+      ) : currentResults.map((recipe, index) => (
           <div key={index} className='bg-indigo-600 rounded-lg drop-shadow-xl cursor-pointer transition ease-in duration-200 hover:bg-green-500 hover:scale-105' onClick={() => {setIsPopUpOpen(true);
                                                 setRecipeName(recipe.name);
                                                 setIngredientList(recipe.ingredients);

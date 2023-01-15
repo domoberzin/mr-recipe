@@ -17,6 +17,7 @@ const MainPage = () => {
   const [openedIngredients, setOpenedIngredients] = useState([]);
   const [openedInstructions, setOpenedInstructions] = useState([]);
   const [apiType, setApiType] = useState('cocktails');
+  const [searched, setSearched] = useState(false);
   const resultsPerPage = 5;
 
   const handleIngredientClick = (recipeIndex) => {
@@ -38,6 +39,7 @@ const MainPage = () => {
   const handleApiTypeChange = (e) => {
     setApiType(e.target.value);
     setSearchTerm('');
+    setSearched(false);
     setSearchResults([]);
     setOpenedIngredients([]);
     setOpenedInstructions([]);
@@ -47,6 +49,7 @@ const MainPage = () => {
     e.preventDefault();
     const results = apiType == 'cocktails' ? await getCocktails(searchTerm) : await getFood(searchTerm);
     setSearchResults(results);
+    setSearched(true);
   }
 
   const handlePageChange = (newPage) => {
@@ -71,7 +74,7 @@ const MainPage = () => {
           </div>
           <SearchForm searchTerm={searchTerm} onSearchTermChange = {e => setSearchTerm(e.target.value)} onSearch={handleSearch} />
           <ApiTypeSelector apiType={apiType} onApiTypeChange={handleApiTypeChange} />
-          <Recipes apiType={apiType} currentResults={currentResults} openedIngredients={openedIngredients} 
+          <Recipes searched={searched} apiType={apiType} currentResults={currentResults} openedIngredients={openedIngredients} 
           openedInstructions={openedInstructions} handleIngredientClick={handleIngredientClick} handleInstructionClick={handleInstructionClick} />
           <Pagination totalResults={searchResults.length} resultsPerPage={resultsPerPage} currentPage={currentPage} onPageChange={handlePageChange} />
         </div>
