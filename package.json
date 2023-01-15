@@ -28,7 +28,7 @@
     "predeploy" : "npm run build",
     "deploy" : "gh-pages -d build"
   },
-  "homepage": " ",
+  "homepage": "https://domoberzin.github.io/mr-recipe/",
   "eslintConfig": {
     "extends": [
       "react-app",
