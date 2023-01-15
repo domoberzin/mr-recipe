@@ -6,6 +6,8 @@ import Pagination from './components/Pagination';
 import Recipes from './components/Recipes';
 import SearchForm from './components/SearchForm';
 import ApiTypeSelector from './components/ApiTypeSelector';
+import { FaCookieBite } from 'react-icons/fa';
+import { GiChickenOven } from 'react-icons/gi'
 
 
 const MainPage = () => {
@@ -60,13 +62,23 @@ const MainPage = () => {
 
   return (
     <div className='main-page'>
-      <h1 className="text-3xl font-bold underline" >Welcome to Mr Recipe</h1>
-      <SearchForm searchTerm={searchTerm} onSearchTermChange = {e => setSearchTerm(e.target.value)} onSearch={handleSearch} />
-      <ApiTypeSelector apiType={apiType} onApiTypeChange={handleApiTypeChange} />
-      <Recipes apiType={apiType} currentResults={currentResults} openedIngredients={openedIngredients} 
-      openedInstructions={openedInstructions} handleIngredientClick={handleIngredientClick} handleInstructionClick={handleInstructionClick} />
-      <Pagination totalResults={searchResults.length} resultsPerPage={resultsPerPage} currentPage={currentPage} onPageChange={handlePageChange} />
+      <div className='grid grid-cols-3 gap-x-20'>
+        <FaCookieBite className='text-indigo-600 justify-self-center self-center drop-shadow-2xl' size={140}/>
+        <div className='pt-12 self-center justify-self-center pb-60'>
+          <div className='grid grid-rows-2'>
+            <span className="text-6xl font-extrabold text-indigo-600">Mr Recipe</span>
+            <span className='text-3xl font-semibold text-indigo-400'>making recipe's easier</span>
+          </div>
+          <SearchForm searchTerm={searchTerm} onSearchTermChange = {e => setSearchTerm(e.target.value)} onSearch={handleSearch} />
+          <ApiTypeSelector apiType={apiType} onApiTypeChange={handleApiTypeChange} />
+          <Recipes apiType={apiType} currentResults={currentResults} openedIngredients={openedIngredients} 
+          openedInstructions={openedInstructions} handleIngredientClick={handleIngredientClick} handleInstructionClick={handleInstructionClick} />
+          <Pagination totalResults={searchResults.length} resultsPerPage={resultsPerPage} currentPage={currentPage} onPageChange={handlePageChange} />
+        </div>
+        <GiChickenOven className='text-indigo-600 justify-self-center self-center drop-shadow-2xl' size={140}/>
+      </div>   
     </div>
+      
   );
 };
 

@@ -1,8 +1,8 @@
 import React from 'react';
 
 const ApiTypeSelector = ({ apiType, onApiTypeChange }) => (
-<div className="api-type-selector">
-    <label class="relative inline-flex items-center cursor-pointer">
+  <div className="flex flex-row justify-center gap-x-20">
+    <label className="cursor-pointer font-semibold text-indigo-600 text-xl">
       <input
         type="checkbox"
         name="api-type"
@@ -10,7 +10,8 @@ const ApiTypeSelector = ({ apiType, onApiTypeChange }) => (
         checked={apiType === 'cocktails'}
         onChange={onApiTypeChange}
       /> Cocktails
-    <label>
+    </label>
+    <label className='cursor-pointer font-semibold text-indigo-600 text-xl'>
       <input
         type="checkbox"
         name="api-type"
@@ -18,7 +19,6 @@ const ApiTypeSelector = ({ apiType, onApiTypeChange }) => (
         checked={apiType === 'food'}
         onChange={onApiTypeChange}
       /> Food
-    </label>
     </label>
   </div>
 )

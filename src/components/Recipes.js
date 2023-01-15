@@ -1,6 +1,8 @@
 import Ingredients from "./Ingredients";
 import Instructions from "./Instructions";
 import RecipeName from "./RecipeName";
+import ReactModal from "react-modal";
+import React, { useState } from "react";
 
 // const Recipes = ({ apiType, currentResults, openedIngredients, openedInstructions, handleIngredientClick, handleInstructionClick }) => {
 
@@ -20,16 +22,58 @@ import RecipeName from "./RecipeName";
 // export default Recipes;
 
 const Recipes = ({ apiType, currentResults, openedIngredients, openedInstructions, handleIngredientClick, handleInstructionClick }) => {
+
+  const [isPopUpOpen, setIsPopUpOpen] = useState(false);
+  const [recipeName, setRecipeName] = useState("");
+  const [ingredientList, setIngredientList] = useState([]);
+  const [instructionList, setInstructionList] = useState([]);
+  const [i, setI] = useState(null);
+
+  if (currentResults.length === 0) {
+    return (
+      <div className="mt-12">
+        <span className="text-indigo-600 font-bold text-4xl">
+          Unfortunately nothing could be found :(
+        </span>
+      </div>
+    )
+  }
+
   return (
-    <div className='flex flex-col items-center justify-center'>
+    <>
+      <div className='flex flex-col gap-y-6 py-12'>
       {currentResults.map((recipe, index) => (
-        <div key={index} className='bg-white p-6 rounded-lg shadow-md'>
-          <RecipeName name={recipe.name} className='text-xl font-medium'/>
-          <Ingredients isOpen={openedIngredients.includes(index)} onToggle={handleIngredientClick} ingredients={recipe.ingredients} index={index} className='text-base font-light'/>
-          <Instructions apiType={apiType} isOpen={openedInstructions.includes(index)} onToggle={handleInstructionClick} index={index} instructions={recipe.instructions} className='text-base font-light'/>
-        </div>
-      ))}
-    </div>
+          <div key={index} className='bg-indigo-600 rounded-lg drop-shadow-xl cursor-pointer transition ease-in duration-200 hover:bg-green-500 hover:scale-105' onClick={() => {setIsPopUpOpen(true);
+                                                setRecipeName(recipe.name);
+                                                setIngredientList(recipe.ingredients);
+                                                setI(index);
+                                                setInstructionList(recipe.instructions)}}>
+            <RecipeName name={recipe.name}/>
+          </div>
+        ))}
+      </div>
+      <div className="flex flex-col">
+        <ReactModal 
+        className="absolute w-4/6 h-4/6 bg-indigo-600 rounded-lg p-4 inset-56 flex" 
+        isOpen={isPopUpOpen}
+        onRequestClose={() => {setIsPopUpOpen(false);
+                              setRecipeName("");
+                              setIngredientList([]);
+                              setI(null);
+                              setIngredientList([]);}}
+        shouldCloseOnOverlayClick={true}
+        shouldCloseOnEsc={true}
+        preventScroll={true} centered>
+          <div className="flex flex-col gap-y-4">
+            <span className="text-white text-left text-4xl font-bold">
+              {recipeName}
+            </span>
+            <Ingredients isOpen={openedIngredients.includes(i)} onToggle={handleIngredientClick} ingredients={ingredientList} index={i}/>
+            <Instructions apiType={apiType} isOpen={openedInstructions.includes(i)} onToggle={handleInstructionClick} index={i} instructions={instructionList}/>
+          </div>
+        </ReactModal>
+      </div>
+    </>
   );
 };
 
