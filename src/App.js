@@ -65,8 +65,8 @@ const MainPage = () => {
 
   return (
     <div className='main-page'>
-      <div className='grid grid-cols-3 gap-x-20'>
-        <FaCookieBite className='text-indigo-600 justify-self-center self-center drop-shadow-2xl' size={140}/>
+      <div className='grid grid-cols-3 absolute inset-0 gap-x-20' style={{backgroundColor:"blanchedalmond"}}>
+        <FaCookieBite className='static text-indigo-600 justify-self-center self-center drop-shadow-2xl' size={140}/>
         <div className='pt-12 self-center justify-self-center pb-60'>
           <div className='grid grid-rows-2'>
             <span className="text-6xl font-extrabold text-indigo-600">Mr Recipe</span>
@@ -78,7 +78,7 @@ const MainPage = () => {
           openedInstructions={openedInstructions} handleIngredientClick={handleIngredientClick} handleInstructionClick={handleInstructionClick} />
           <Pagination totalResults={searchResults.length} resultsPerPage={resultsPerPage} currentPage={currentPage} onPageChange={handlePageChange} />
         </div>
-        <GiChickenOven className='text-indigo-600 justify-self-center self-center drop-shadow-2xl' size={140}/>
+        <GiChickenOven className='static text-indigo-600 justify-self-center self-center drop-shadow-2xl' size={140}/>
       </div>   
     </div>
       
