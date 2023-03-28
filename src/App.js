@@ -18,7 +18,7 @@ const MainPage = () => {
   const [openedInstructions, setOpenedInstructions] = useState([]);
   const [apiType, setApiType] = useState('cocktails');
   const [searched, setSearched] = useState(false);
-  const resultsPerPage = 5;
+  const resultsPerPage = 3;
 
   const handleIngredientClick = (recipeIndex) => {
     if (openedIngredients.includes(recipeIndex)) {
