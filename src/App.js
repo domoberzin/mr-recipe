@@ -64,7 +64,9 @@ const MainPage = () => {
 
 
   return (
-    <div className='main-page'>
+    <div className='main-page absolute inset-0' style={{
+      overflowY: "auto"
+    }}>
       <div className='grid grid-cols-3 absolute inset-0 gap-x-20' style={{backgroundColor:"blanchedalmond"}}>
         <FaCookieBite className='static text-indigo-600 justify-self-center self-center drop-shadow-2xl' size={140}/>
         <div className='pt-12 self-center justify-self-center pb-60'>
